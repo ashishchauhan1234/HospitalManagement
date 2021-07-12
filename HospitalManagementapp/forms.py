@@ -31,57 +31,56 @@ class DepartmentForm(forms.ModelForm):
 		return input_head_name
 
 
-gender_choice= (('M', 'Male'), ('F', 'Female'))
+gender_choice= (('Male', 'Male'), ('Female', 'Female'))
 class DoctorForm(forms.ModelForm): 
 	gender= forms.ChoiceField(choices= gender_choice, widget= forms.RadioSelect())
 
 	class Meta: 
 		model= Doctor
-		fields= ['name', 'gender', 'degree', 'department', 'phone', 'address', 'email']
+		fields= ['name', 'gender', 'degree', 'department', 'phone', 'address', 'email','d_o_b']
 
 		labels= {
 			'name': _('name'),
-			'department': _('department'),
-			'gender': _("Gender"), 
+			'd_o_b': _("Date of Birth"),
+			'gender': _("Gender"),
+			'phone': _('Phone no'),
+			'email': _('Email Id'),
+			'address': _('Address'),
 			'degree': _("Qualification"),
-			'phone': _('Phone no'), 
-			'address': _('Address'), 
-			'email': _('Email Id'), 
+			'department': _('department'),
 		}
 
 	def clean_name(self): 
 		input_doc_name= self.cleaned_data['name']
-		if len(input_doc_name.strip()) == 0: 
+		if len(input_doc_name.strip()) == 0:
 			raise forms.ValidationError("please enter doctor name")
-
 		return input_doc_name
 
-	def clean_email(self): 
+	def clean_d_o_b(self):
+		input_dob= self.cleaned_data['d_o_b']
+		if input_dob == None:
+			raise forms.ValidationError("please enter Date of birth")
+		return input_dob
+
+	def clean_gender(self):
+		input_gen= self.cleaned_data['gender']
+		if len(input_gen.strip()) == 0:
+			raise forms.ValidationError("please enter gender")
+		return input_gen
+
+	def clean_phone(self):
+		input_phone= self.cleaned_data['phone']
+		if len(input_phone) < 10:
+			raise forms.ValidationError("please enter correct patient phone no")
+		elif not input_phone.isdigit():
+			raise forms.ValidationError("all character must be integer")
+		return input_phone
+
+	def clean_email(self):
 		input_email= self.cleaned_data['email']
 		validator= EmailValidator("Enter valid email Id")
 		validator(input_email)
 		return input_email
-
-	def clean_degree(self): 
-		input_degree= self.cleaned_data['degree']
-		if len(input_degree.strip()) == 0: 
-			raise forms.ValidationError("please enter degree")
-
-		return input_degree
-
-	def clean_gender(self): 
-		input_gen= self.cleaned_data['gender']
-		if len(input_gen.strip()) == 0: 
-			raise forms.ValidationError("please enter gender")
-		return input_gen
-
-	def clean_phone(self): 
-		input_phone= self.cleaned_data['phone']
-		if len(input_phone) < 10: 
-			raise forms.ValidationError("please enter correct patient phone no")
-		elif not input_phone.isdigit(): 
-			raise forms.ValidationError("all character must be integer")
-		return input_phone
 
 	def clean_address(self): 
 		input_add= self.cleaned_data['address']
@@ -89,8 +88,108 @@ class DoctorForm(forms.ModelForm):
 			raise forms.ValidationError("please enter doctor address")
 		return input_add
 
+	def clean_degree(self):
+		input_degree= self.cleaned_data['degree']
+		if len(input_degree.strip()) == 0:
+			raise forms.ValidationError("please enter degree")
 
-class StaffForm(forms.ModelForm): 
+		return input_degree
+
+
+
+class PatientForm(forms.ModelForm):
+	gender= forms.ChoiceField(choices= gender_choice, widget= forms.RadioSelect())
+
+	class Meta:
+		model= Patient
+		fields= ['name', 'age', 'gender', 'phone', 'disease', 'doctor', 'address', 'date', 'room_no', 'blood','d_o_b']
+
+		labels= {
+			'name': _("name"),
+			'age': _("age"),
+			'd_o_b':_('Date of Birth'),
+			'blood': _("Blood Group"),
+			'gender': _("Gender"),
+			'phone': _("Phone no"),
+			'disease': _("Disease"),
+			'doctor': _("Doctor name"),
+		     'room_no': _('room no'),
+		     'address': _('address'),
+			'date': _('Admit date'),
+		}
+
+
+	def clean_name(self):
+		input_patient_name= self.cleaned_data['name']
+		if len(input_patient_name.strip()) == 0:
+			raise forms.ValidationError("please enter patient name")
+		return input_patient_name
+
+	def clean_gender(self):
+		input_gen= self.cleaned_data['gender']
+		if len(input_gen.strip()) == 0:
+			raise forms.ValidationError("please select Gender")
+		return input_gen
+
+	def clean_age(self):
+		input_age= self.cleaned_data['age']
+		if input_age == None:
+			raise forms.ValidationError("please enter patient age")
+		return input_age
+
+	def clean_d_o_b(self):
+		input_date= self.cleaned_data['d_o_b']
+		if input_date == None:
+			raise forms.ValidationError("please enter date of birth")
+		return input_date
+
+	def clean_phone(self):
+		input_phone= self.cleaned_data['phone']
+		if len(input_phone) < 10:
+			raise forms.ValidationError("please enter correct patient phone no")
+		elif not input_phone.isdigit():
+			raise forms.ValidationError("all character must be integer")
+		return input_phone
+
+	def clean_address(self):
+		input_add= self.cleaned_data['address']
+		if len(input_add.strip()) == 0:
+			raise forms.ValidationError("please enter patient address")
+		return input_add
+
+	def clean_blood(self):
+		input_blood_grp= self.cleaned_data['blood']
+		if len(input_blood_grp.strip()) == 0:
+			raise forms.ValidationError("please enter patient blood grp")
+		return input_blood_grp
+
+	def clean_disease(self):
+		input_disease= self.cleaned_data['disease']
+		if len(input_disease.strip()) == 0:
+			raise forms.ValidationError("please enter patient disease")
+		return input_disease
+
+	def clean_date(self):
+		input_date= self.cleaned_data['date']
+		if input_date == None:
+			raise forms.ValidationError("please enter patient admitting date")
+		return input_date
+
+	def clean_room_no(self):
+		input_room_no= self.cleaned_data['room_no']
+		if len(input_room_no.strip()) == 0:
+			raise forms.ValidationError("Please write the type of room no")
+		return input_room_no
+
+	def clean_doctor(self):
+		input_doctor= self.cleaned_data['doctor']
+		if input_doctor == None:
+			raise forms.ValidationError("Please appoint doctor..")
+		return input_doctor
+
+
+
+class StaffForm(forms.ModelForm):
 	gender= forms.ChoiceField(choices= gender_choice, widget= forms.RadioSelect())
 
 	class Meta: 
@@ -171,96 +270,6 @@ class StaffForm(forms.ModelForm):
 		return input_des
 
 
-class PatientForm(forms.ModelForm): 
-	gender= forms.ChoiceField(choices= gender_choice, widget= forms.RadioSelect())
-	class Meta: 
-		model= Patient
-		fields= ['name', 'age', 'gender', 'phone', 'disease', 'doctor', 'department', 
-		          'address', 'date', 'room_no', 'blood']
-
-		labels= {
-			'name': _("name"), 
-			'age': _("age"), 
-			'blood': _("Blood Group"), 
-			'gender': _("Gender"), 
-			'phone': _("Phone no"), 
-			'disease': _("Disease"), 
-			'doctor': _("Doctor name"), 
-			'department': _("Department name"), 
-		     'room_no': _('room no'),
-		     'address': _('address'),
-			'date': _('Admit date'),
-		}
-
-
-	def clean_name(self): 
-		input_patient_name= self.cleaned_data['name']
-		if len(input_patient_name.strip()) == 0: 
-			raise forms.ValidationError("please enter patient name")
-		return input_patient_name
-
-	def clean_phone(self): 
-		input_phone= self.cleaned_data['phone']
-		if len(input_phone) < 10: 
-			raise forms.ValidationError("please enter correct patient phone no")
-		elif not input_phone.isdigit(): 
-			raise forms.ValidationError("all character must be integer")
-		return input_phone
-
-	def clean_blood(self): 
-		input_blood_grp= self.cleaned_data['blood']
-		if len(input_blood_grp.strip()) == 0: 
-			raise forms.ValidationError("please enter patient blood grp")
-		return input_blood_grp
-
-	def clean_age(self): 
-		input_age= self.cleaned_data['age']
-		if input_age == None: 
-			raise forms.ValidationError("please enter patient age")
-		return input_age
-
-	def clean_disease(self): 
-		input_disease= self.cleaned_data['disease']
-		if len(input_disease.strip()) == 0: 
-			raise forms.ValidationError("please enter patient disease")
-		return input_disease
-
-	def clean_gender(self): 
-		input_gen= self.cleaned_data['gender']
-		if len(input_gen.strip()) == 0: 
-			raise forms.ValidationError("please select Gender")
-		return input_gen
-
-	def clean_address(self): 
-		input_add= self.cleaned_data['address']
-		if len(input_add.strip()) == 0: 
-			raise forms.ValidationError("please enter patient address")
-		return input_add
-
-	def clean_date(self): 
-		input_date= self.cleaned_data['date']
-		if input_date == None: 
-			raise forms.ValidationError("please enter patient admitting date")
-		return input_date
-
-	def clean_room_no(self): 
-		input_room_no= self.cleaned_data['room_no']
-		if len(input_room_no.strip()) == 0: 
-			raise forms.ValidationError("Please write the type of room no")
-		return input_room_no
-
-	def clean_doctor(self): 
-		input_doctor= self.cleaned_data['doctor']
-		if input_doctor == None: 
-			raise forms.ValidationError("Please appoint doctor..")
-		return input_doctor
-
-	def clean_department(self): 
-		input_dept= self.cleaned_data['department']
-		if input_dept == None: 
-			raise forms.ValidationError("Please select any department..")
-		return input_dept
-
 
 room_choices= (('', 'Select'), ('Gen', 'General'), ('VIP', 'VIP'), ('Emg', 'Emergency room'))
 class RoomForm(forms.ModelForm): 
@@ -313,24 +322,55 @@ class CheckoutForm(forms.ModelForm):
 	class Meta: 
 		model= Checkout
 		fields= ['date_of_dis', 'date_of_adm', 'address', 'total_bill', 'age', 'gender',
-		          'disease', 'contact', 'doctor_charge', 'medicine_charge', 'patient', 'room_no']
+		          'disease', 'contact', 'patient', 'room_no','d_o_b']
 
 		labels= {
-			'address': _('Patient address '), 
-			'total_bill': _('total Amount'), 
-			'age': _(' patient age'), 
-			'gender': _(' gender'), 
-			'disease': _('Disease'), 
-			'contact': _('Contact no'), 
-               'date_of_dis': _('Discharge Date'), 
-			'date_of_adm': _('admitting date'), 
-			'medicine_charge': _('Medicine charges'), 
-			'doctor_charge': _('Doctor charges'), 
-			'room_no': _('Room no'), 
 			'patient': _('Patient name'),
+			'd_o_b': _('Date of birth'),
+			'age': _(' patient age'),
+			'gender': _(' gender'),
+			'contact': _('Contact no'),
+			'address': _('Patient address '),
+			'date_of_adm': _('admitting date'),
+			'disease': _('Disease'),
+			'room_no': _('Room no'),
+			'date_of_dis': _('Discharge Date'),
+			'total_bill': _('total Amount'),
 		}
 
-	def clean_room_no(self): 
+	def clean_patient(self):
+		input_name = self.cleaned_data['patient']
+		if len(input_name) == 0:
+			raise forms.ValidationError("Please enter patient name")
+		return input_name
+
+	def clean_d_o_b(self):
+		input_data= self.cleaned_data['d_o_b']
+		if input_data == None:
+			raise forms.ValidationError("please write date of birth..")
+		return input_data
+
+	def clean_age(self):
+		input_data= self.cleaned_data['age']
+		if input_data == None:
+			raise forms.ValidationError("please write patient age")
+		return input_data
+
+	def clean_gender(self):
+		input_data= self.cleaned_data['gender']
+		if len(input_data.strip()) == 0:
+			raise forms.ValidationError("please write patient gender..")
+		return input_data
+
+	def clean_contact(self):
+		input_data= self.cleaned_data['contact']
+		if input_data == None:
+			raise forms.ValidationError("please write patient contact no")
+		elif not input_data.isdigit() or len(input_data) < 10:
+			raise forms.ValidationError("please write correct patient contact no")
+		return input_data
+
+	def clean_room_no(self):
 		input_room_no= self.cleaned_data['room_no']
 		if input_room_no == None: 
 			raise forms.ValidationError("please write patient room no")
@@ -354,24 +394,6 @@ class CheckoutForm(forms.ModelForm):
 			raise forms.ValidationError("please write patient discharge date")
 		return input_data
 
-	def clean_doctor_charge(self): 
-		input_data= self.cleaned_data['doctor_charge']
-		if input_data == None: 
-			raise forms.ValidationError("please write doctor charges")
-		return input_data
-
-	def clean_age(self): 
-		input_data= self.cleaned_data['age']
-		if input_data == None: 
-			raise forms.ValidationError("please write patient age")
-		return input_data
-
-	def clean_medicine_charge(self): 
-		input_data= self.cleaned_data['medicine_charge']
-		if input_data == None: 
-			raise forms.ValidationError("please write patient's medicine charges")
-		return input_data
-
 	def clean_address(self): 
 		input_data= self.cleaned_data['address']
 		if len(input_data.strip()) == None: 
@@ -382,20 +404,6 @@ class CheckoutForm(forms.ModelForm):
 		input_data= self.cleaned_data['disease']
 		if input_data == None: 
 			raise forms.ValidationError("please write the patient disease ")
-		return input_data
-
-	def clean_contact(self): 
-		input_data= self.cleaned_data['contact']
-		if input_data == None: 
-			raise forms.ValidationError("please write patient contact no")
-		elif not input_data.isdigit() or len(input_data) < 10: 
-			raise forms.ValidationError("please write correct patient contact no")
-		return input_data
-
-	def clean_gender(self): 
-		input_data= self.cleaned_data['gender']
-		if len(input_data.strip()) == 0: 
-			raise forms.ValidationError("please write patient gender..")
 		return input_data
 
 
@@ -515,12 +523,18 @@ class OrderMedicineForm(forms.ModelForm):
 class VisitorForm(forms.ModelForm): 
 	class Meta: 
 		model= Visitor
-		fields= ['name', 'patient', 'phone']
+		fields= ['name', 'date', 'patient', 'phone']
 
 		labels= {
 			'name': _("Name of visitor"), 
 			'phone': _("Visitor's phone no"), 
 			'patient': _("Patient name"), 
+			'date': _("Visiting date"),
+		}
+
+		widgets = {
+			'patient': forms.CheckboxSelectMultiple(),
+			'date': forms.DateInput(format="%d/%m/%Y")
 		}
 
 	def clean_name(self): 
@@ -528,6 +542,12 @@ class VisitorForm(forms.ModelForm):
 		if len(input_name.strip()) == 0: 
 			raise forms.ValidationError("Enter the visitor name")
 		return input_name
+
+	def clean_date(self):
+		input_date= self.cleaned_data['date']
+		if input_date == None:
+			raise forms.ValidationError("Enter the visitor date")
+		return input_date
 
 	def clean_phone(self): 
 		input_phone= self.cleaned_data['phone']
@@ -553,14 +573,15 @@ class AdminForm(forms.ModelForm):
 		model= Admin
 		fields= ['name', 'password', 'phone_no', 'email_id']
 
-		labels= {
+		label= {
 			'name': 'Enter your name', 
 			'phone_no': 'Phone no', 
 			'email_id': 'Email id', 
 			'password': 'Password'
 		}
 		widgets= {
-			'password': forms.PasswordInput()
+			'password': forms.PasswordInput(),
+			'email_id': forms.EmailInput(help('USer name'))
 		}
 		help_texts= {
 			'email': _("Your email is your username"), 
@@ -569,7 +590,7 @@ class AdminForm(forms.ModelForm):
 
 	def clean_name(self): 
 		input_name= self.cleaned_data['name']
-		if len(input_name.strip()) == 0: 
+		if input_name == None or  len(input_name.strip()) == 0:
 			raise forms.ValidationError("Enter the admin name")
 		return input_name
 
@@ -584,8 +605,7 @@ class AdminForm(forms.ModelForm):
 
 		validator= EmailValidator("please write valid Email Id")
 		validator(input_email)
-		# for checking email is register earlier or not
-		if User.objects.filter(email= input_email ).exists(): 
+		if User.objects.filter(email= input_email ).exists():
 			raise forms.ValidationError("EmailId has already registered ....")
 		return input_email
 
