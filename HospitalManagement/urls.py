@@ -19,8 +19,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("HospitalManagementapp/",include('HospitalManagementapp.urls')),
-    path('paypal/',include('paypal.standard.ipn.urls'))
+    path('paypal/',include('paypal.standard.ipn.urls')),
 ]
 urlpatterns += [
-    path('accounts/',include('django.contrib.auth.urls'))
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
