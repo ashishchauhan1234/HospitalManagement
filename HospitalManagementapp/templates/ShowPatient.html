@@ -17,15 +17,15 @@
                  <tr>
                     <th>S. No</th>
                     <th>name</th>
-                    <th>Age</th>
                     <th>Gender</th>
+                    <th>Date of birth</th>
+                    <th>Age</th>
                     <th>Blood grp</th>
                     <th>Phone no</th>
+                    <th>Address</th>
+                    <th>Date</th>
                     <th>Disease</th>
                     <th>Doctor</th>
-                    <th>Department</th>
-                    <th>Date</th>
-                    <th>Address</th>
                     <th>room no</th>
                     <th>Action</th>
                  </tr>
@@ -33,15 +33,15 @@
                  <tr style="text-align: center; text-transform: capitalize">
                      <td align="center" >{{ patient.id }}. </td>
                      <td style="width: 8%">{{ patient.name }} </td>
-                     <td style="width: 8%" >{{ patient.age }} </td>
                      <td style="width: 8%">{{ patient.gender }} </td>
+                     <td style="width: 8%" >{{ patient.d_o_b }} </td>
+                     <td style="width: 8%" >{{ patient.age }} </td>
                      <td style="width: 8%" >{{ patient.blood }} </td>
                      <td style="width: 8%" >{{ patient.phone }} </td>
+                     <td style="width: 8%">{{ patient.address }} </td>
+                     <td style="width: 8%" >{{ patient.date }} </td>
                      <td style="width: 8%">{{ patient.disease }} </td>
                      <td style="width: 8%">{{ patient.doctor }} </td>
-                     <td style="width: 8%">{{ patient.department }} </td>
-                     <td style="width: 8%" >{{ patient.date }} </td>
-                     <td style="width: 8%">{{ patient.address }} </td>
                      <td style="width: 8%">{{ patient.room_no }} </td>
                     <td style="width: 8%" >
                         <a href="{% url 'Update_Patient' patient.id %}">Update </a> /

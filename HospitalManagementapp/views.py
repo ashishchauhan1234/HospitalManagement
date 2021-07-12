@@ -15,16 +15,18 @@ from .models import *
 def index(request):
 	return HttpResponse("hello World!!!")
 
+
 @login_required
 def department(request):
 	if request.method == "POST":
 		dept_form_vdf= DepartmentForm(request.POST)
 		if dept_form_vdf.is_valid():
-			dept= Department()
-			dept.name= dept_form_vdf.cleaned_data['name']
-			dept.head= dept_form_vdf.cleaned_data['head']
-			dept.save()
-			
+			# dept= Department()
+			# dept.name= dept_form_vdf.cleaned_data['name']
+			# dept.head= dept_form_vdf.cleaned_data['head']
+			# dept.save()
+			dept_form_vdf.save()
+
 			dept_vdf= DepartmentForm()
 			return render(request, 'AddDepartment.html',{"vdf": dept_vdf,'success':"Department Data is saved"})
 		else:
@@ -64,18 +66,20 @@ def showDepartment(request):
 	return render(request, 'ShowDepartment.html',{'dept_list': department_list})
 
 
+
 @login_required
 def doctor(request):
 	if request.method == "POST":
 		doc_form_vdf= DoctorForm(request.POST)
 		if doc_form_vdf.is_valid():
 			doc= Doctor()
-			doc.email= doc_form_vdf.cleaned_data['email']
 			doc.name= doc_form_vdf.cleaned_data['name']
-			doc.phone= doc_form_vdf.cleaned_data['phone']
-			doc.degree= doc_form_vdf.cleaned_data['degree']
-			doc.address= doc_form_vdf.cleaned_data['address']
+			doc.d_o_b= doc_form_vdf.cleaned_data['d_o_b']
 			doc.gender= doc_form_vdf.cleaned_data['gender']
+			doc.phone= doc_form_vdf.cleaned_data['phone']
+			doc.email= doc_form_vdf.cleaned_data['email']
+			doc.address= doc_form_vdf.cleaned_data['address']
+			doc.degree= doc_form_vdf.cleaned_data['degree']
 			doc.department= doc_form_vdf.cleaned_data['department']
 			doc.save()
 
@@ -93,13 +97,15 @@ def updateDoctor(request,id):
 		doc_form_vdf= DoctorForm(request.POST)
 		if doc_form_vdf.is_valid():
 			new_doc= Doctor()
-			new_doc.email= doc_form_vdf.cleaned_data['email']
-			new_doc.name= doc_form_vdf.cleaned_data['name']
-			new_doc.phone= doc_form_vdf.cleaned_data['phone']
-			new_doc.degree= doc_form_vdf.cleaned_data['degree']
-			new_doc.address= doc_form_vdf.cleaned_data['address']
-			new_doc.gender= doc_form_vdf.cleaned_data['gender']
-			new_doc.department= doc_form_vdf.cleaned_data['department']
+			new_doc.name = doc_form_vdf.cleaned_data['name']
+			new_doc.d_o_b = doc_form_vdf.cleaned_data['d_o_b']
+			new_doc.gender = doc_form_vdf.cleaned_data['gender']
+			new_doc.phone = doc_form_vdf.cleaned_data['phone']
+			new_doc.email = doc_form_vdf.cleaned_data['email']
+			new_doc.address = doc_form_vdf.cleaned_data['address']
+			new_doc.degree = doc_form_vdf.cleaned_data['degree']
+			new_doc.department = doc_form_vdf.cleaned_data['department']
+
 			new_doc.id= doc_data.id
 			new_doc.save()
 
@@ -124,6 +130,7 @@ def showDoctor(request):
 
 
 
+@login_required
 def patient(request):
 	if request.method == "POST":
 		patient_form_vdf= PatientForm(request.POST)
@@ -131,15 +138,15 @@ def patient(request):
 			p= Patient()
 			p.name= patient_form_vdf.cleaned_data['name']
 			p.gender= patient_form_vdf.cleaned_data['gender']
+			p.d_o_b= patient_form_vdf.cleaned_data['d_o_b']
 			p.age= patient_form_vdf.cleaned_data['age']
-			p.phone= patient_form_vdf.cleaned_data['phone']
-			p.disease= patient_form_vdf.cleaned_data['disease']
-			p.doctor= patient_form_vdf.cleaned_data['doctor']
-			p.department= patient_form_vdf.cleaned_data['department']
-			p.date= patient_form_vdf.cleaned_data['date']
-			p.address= patient_form_vdf.cleaned_data['address']
-			p.room_no= patient_form_vdf.cleaned_data['room_no']
 			p.blood= patient_form_vdf.cleaned_data['blood']
+			p.disease= patient_form_vdf.cleaned_data['disease']
+			p.address= patient_form_vdf.cleaned_data['address']
+			p.phone= patient_form_vdf.cleaned_data['phone']
+			p.date= patient_form_vdf.cleaned_data['date']
+			p.room_no= patient_form_vdf.cleaned_data['room_no']
+			p.doctor= patient_form_vdf.cleaned_data['doctor']
 			p.save()
 
 			p_vdf= PatientForm()
@@ -158,15 +165,15 @@ def updatePatient(request,id):
 			new_patient= Patient()
 			new_patient.name= patient_form_vdf.cleaned_data['name']
 			new_patient.gender= patient_form_vdf.cleaned_data['gender']
+			new_patient.d_o_b= patient_form_vdf.cleaned_data['d_o_b']
 			new_patient.age= patient_form_vdf.cleaned_data['age']
-			new_patient.phone= patient_form_vdf.cleaned_data['phone']
-			new_patient.disease= patient_form_vdf.cleaned_data['disease']
-			new_patient.doctor= patient_form_vdf.cleaned_data['doctor']
-			new_patient.department= patient_form_vdf.cleaned_data['department']
-			new_patient.date= patient_form_vdf.cleaned_data['date']
-			new_patient.address= patient_form_vdf.cleaned_data['address']
-			new_patient.room_type= patient_form_vdf.cleaned_data['room_type']
 			new_patient.blood= patient_form_vdf.cleaned_data['blood']
+			new_patient.disease= patient_form_vdf.cleaned_data['disease']
+			new_patient.address= patient_form_vdf.cleaned_data['address']
+			new_patient.phone= patient_form_vdf.cleaned_data['phone']
+			new_patient.date= patient_form_vdf.cleaned_data['date']
+			new_patient.room_no= patient_form_vdf.cleaned_data['room_no']
+			new_patient.doctor= patient_form_vdf.cleaned_data['doctor']
 			new_patient.id= patient_data.id
 			new_patient.save()
 
@@ -191,6 +198,7 @@ def showPatient(request):
 
 
 
+@login_required
 def room(request):
 	if request.method == 'POST':
 		room_form_vdf= RoomForm(request.POST)
@@ -245,6 +253,8 @@ def showRoom(request):
 	return render(request,'ShowRoom.html',{ "room_list" : room_list })
 
 
+
+@login_required
 def checkout(request):
 	if request.method == "POST":
 		checkout_form_vdf= CheckoutForm(request.POST)
@@ -257,11 +267,10 @@ def checkout(request):
 			c.contact= checkout_form_vdf.cleaned_data['contact']
 			c.address= checkout_form_vdf.cleaned_data['address']
 			c.disease= checkout_form_vdf.cleaned_data['disease']
+			c.d_o_b= checkout_form_vdf.cleaned_data['d_o_b']
 			c.date_of_adm= checkout_form_vdf.cleaned_data['date_of_adm']
 			c.date_of_dis= checkout_form_vdf.cleaned_data['date_of_dis']
 			c.room_no= checkout_form_vdf.cleaned_data['room_no']
-			c.medicine_charge= checkout_form_vdf.cleaned_data['medicine_charge']
-			c.doctor_charge= checkout_form_vdf.cleaned_data['doctor_charge']
 			c.total_bill= checkout_form_vdf.cleaned_data['total_bill']
 			c.save()
 
@@ -291,11 +300,10 @@ def updateCheckout(request,id):
 			new_checkout.contact= checkout_form_vdf.cleaned_data['contact']
 			new_checkout.address= checkout_form_vdf.cleaned_data['address']
 			new_checkout.disease= checkout_form_vdf.cleaned_data['disease']
+			new_checkout.d_o_b= checkout_form_vdf.cleaned_data['d_o_b']
 			new_checkout.date_of_adm= checkout_form_vdf.cleaned_data['date_of_adm']
 			new_checkout.date_of_dis= checkout_form_vdf.cleaned_data['date_of_dis']
 			new_checkout.room_no= checkout_form_vdf.cleaned_data['room_no']
-			new_checkout.medicine_charge= checkout_form_vdf.cleaned_data['medicine_charge']
-			new_checkout.doctor_charge= checkout_form_vdf.cleaned_data['doctor_charge']
 			new_checkout.total_bill= checkout_form_vdf.cleaned_data['total_bill']
 
 			new_checkout.bill_no= checkout_data.bill_no
@@ -373,16 +381,12 @@ def payPalCancelled(request):
 
 
 
-
+@login_required
 def visitor(request):
 	if request.method == 'POST':
 		visitor_vdf= VisitorForm(request.POST)
 		if visitor_vdf.is_valid():
-			v= Visitor()
-			v.name= visitor_vdf.cleaned_data['name']
-			v.phone= visitor_vdf.cleaned_data['phone']
-			v.patient= visitor_vdf.cleaned_data['patient']
-			v.save()
+			visitor_vdf.save()
 
 			v_vdf= VisitorForm()
 			return render(request, 'AddVisitor.html',{'vdf':v_vdf,'success': "New visitor data has successfully "
@@ -401,9 +405,12 @@ def updateVisitor(request,id):
 
 			new_visitor.name= visitor_form_vdf.cleaned_data['name']
 			new_visitor.phone= visitor_form_vdf.cleaned_data['phone']
-			new_visitor.patient= visitor_form_vdf.cleaned_data['patient']
+			new_visitor.date= datetime.datetime.now()
 
 			new_visitor.id= visitor_data.id
+			# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			new_visitor.patient.set_value(visitor_form_vdf.cleaned_data['patient'])
+
 			new_visitor.save()
 
 			return redirect("Show_Visitor_Details")
@@ -427,6 +434,7 @@ def showVisitor(request):
 
 
 
+@login_required
 def staff(request):
 	if request.method == "POST":
 		staff_vdf= StaffForm(request.POST)
@@ -491,6 +499,7 @@ def showStaff(request):
 
 
 
+@login_required
 def medicalStore(request):
 	if request.method == "POST":
 		m_store_vdf= MedicalStoreForm(request.POST)
@@ -552,6 +561,7 @@ def showMedicalStore(request):
 
 
 
+@login_required
 def orderMedicine(request):
 	if request.method == "POST":
 		order_vdf= OrderMedicineForm(request.POST)
@@ -625,6 +635,13 @@ def orderPaymentCancelled(request):
 def showHome(request):
 	return render(request, "Home.html", {'title': "Hospital Management System- Home page"})
 
+
+
+def showContactDetails(request):
+	return render(request,'ContactDetails.html',{})
+
+
+
 def adminForm(request):
 	if request.method == 'POST':
 		admin_form_vdf= AdminForm(request.POST)
@@ -646,7 +663,7 @@ def adminForm(request):
 
 	admin_vdf= AdminForm()
 
-	return render(request, "AdminForm.html", {'vdf': admin_vdf,'title':'Registration Page'})
+	return render(request, "AdminForm.html", {'vdf': admin_vdf,'title':'registration Page'})
 
 @login_required
 def showAdmin(request):
@@ -655,6 +672,3 @@ def showAdmin(request):
 	current_page= request.GET.get('page')
 	admin_list= pages.get_page(current_page)
 	return render(request,'ShowAdmin.html',{'admin_list': admin_list, 'title' :'Admin list'})
-
-def showContactDetails(request):
-	return render(request,'ContactDetails.html',{})

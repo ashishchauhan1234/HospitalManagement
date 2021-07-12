@@ -18,16 +18,15 @@
                     <th>Bill. No</th>
                     <th>Patient name </th>
                     <th>Gender </th>
+                    <th>Date of Birth</th>
                     <th>Age </th>
                     <th>Contact </th>
                     <th>Address </th>
-                    <th>Disease </th>
                     <th>admit date </th>
-                    <th>departure Date </th>
+                    <th>Disease </th>
                     <th>Room no </th>
-                    <th>Medicine charge</th>
-                    <th>Doctor charge</th>
                     <th>Total bill</th>
+                    <th>departure Date </th>
                     <th>Payment status</th>
                     <th>Action</th>
                 </tr>
@@ -36,16 +35,15 @@
                     <td style=" width: 6%" >{{ check.bill_no }}.</td>
                     <td style=" width: 6%" >{{ check.patient }}</td>
                     <td style=" width: 6%" >{{ check.gender }}</td>
+                    <td style=" width: 6%" >{{ check.d_o_b }}</td>
                     <td style=" width: 6%" >{{ check.age }}</td>
                     <td style=" width: 6%" >{{ check.contact }}</td>
                     <td style=" width: 6%" >{{ check.address }}</td>
-                    <td style=" width: 6%" >{{ check.disease }}</td>
                     <td style=" width: 6%" >{{ check.date_of_adm }}</td>
-                    <td style=" width: 6%" >{{ check.date_of_dis }}</td>
+                    <td style=" width: 6%" >{{ check.disease }}</td>
                     <td style=" width: 6%" >{{ check.room_no }}</td>
-                    <td style=" width: 6%" >{{ check.medicine_charge }}</td>
-                    <td style=" width: 6%" >{{ check.doctor_charge }}</td>
                     <td style=" width: 6%" >{{ check.total_bill }}</td>
+                    <td style=" width: 6%" >{{ check.date_of_dis }}</td>
                     <td style=" width: 6%" >{{ check.payment_status }}</td>
                     <td style=" width: 6%" >
                         <a href="{% url 'Update_Checkout' check.bill_no %}">Update </a> ||

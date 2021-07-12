@@ -11,6 +11,13 @@
         <form action="" method="post" novalidate>
             {% csrf_token %}
             <table id="form_table" cellSpacing=10 cellpadding="5">
+                {% if success %}
+                <tr id="success_msg">
+                    <th colspan="3">
+                        {{ success }}
+                    </th>
+                </tr>
+                {% endif %
                 <tr id="required_msg">
                     <th colspan="3">
                         <span>*</span> All fields are required
@@ -62,7 +69,7 @@
                         <input type="reset" value="Reset Form" onclick="alert('your page is refreshed')">
                     </th>
                     <th>
-                        <input type="submit" value="Submit Form" onclick="alert('{{ success }}')">
+                        <input type="submit" value="Submit Form" onclick="alert('Check data before submit')">
                     </th>
                     <th>
                         <a href="{% url 'Show_Staff_Details' %}">Show Staff list</a>

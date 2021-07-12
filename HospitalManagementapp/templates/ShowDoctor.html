@@ -17,6 +17,7 @@
                 <tr>
                     <th style=" width: 10%" >S. No</th>
                     <th style=" width: 10%" >Doctor Name</th>
+                    <th style=" width: 10%" >Date of Birth</th>
                     <th style=" width: 10%" >Gender</th>
                     <th style=" width: 10%" >Phone No</th>
                     <th style=" width: 10%" >Email Id</th>
@@ -29,6 +30,7 @@
                 <tr>
                     <td>{{ doc.id }}.</td>
                     <td>{{ doc.name }}</td>
+                    <td>{{ doc.d_o_b }}</td>
                     <td>{{ doc.gender }}</td>
                     <td>{{ doc.phone }}</td>
                     <td style="text-transform: lowercase">{{ doc.email }}</td>
@@ -56,7 +58,7 @@
                     <th colspan="3">
                         <a href= "{% url 'Doctor_Form' %}">Add New Doctor </a>
                     </th>
-                    <th colspan="6">
+                    <th colspan="7">
 
                         {% if doctor_list.has_previous %}
 

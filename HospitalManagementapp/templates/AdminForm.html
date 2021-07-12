@@ -13,6 +13,14 @@
         <form action="" method="post" novalidate>
             {% csrf_token %}
             <table id="form_table" cellSpacing=10 cellpadding="5">
+                {% if success %}
+                <tr id="success_msg">
+                    <th colspan="3">
+                        {{ success }}
+                    </th>
+                </tr>
+                {% endif %}
+
                 <tr id="required_msg">
                     <th colspan="3">
                         <span>*</span> All fields are required
@@ -25,26 +33,21 @@
                 </tr>
                 <tr>
                     <th>{{ vdf.phone_no.label }}</th>
-                    <th>{{ vdf.phone_no }}</th> <th>{{ vdf.phone_no.errors }}</th>
+                    <th>{{ vdf.phone_no }}</th>
+                    <th>{{ vdf.phone_no.errors }}</th>
                 </tr>
                 <tr>
-                    <th>
-                        {{ vdf.email_id.label }}
-                    </th>
+                    <th>{{ vdf.email_id.label }}</th>
                     <th>{{ vdf.email_id }}</th>
                     <th>{{ vdf.email_id.errors }}</th>
                 </tr>
                 <tr>
-                    <th>
-                        {{ vdf.password.label }}
-                    </th>
+                    <th>{{ vdf.password.label }}</th>
                     <th>{{ vdf.password }}</th>
                     <th>{{ vdf.password.errors }}</th>
                 </tr>
                 <tr>
-                    <th>
-                        {{ vdf.rePassword.label }}
-                    </th>
+                    <th>{{ vdf.rePassword.label }}</th>
                     <th>{{ vdf.rePassword }}</th>
                     <th>{{ vdf.rePassword.errors }}</th>
                 </tr>
@@ -58,8 +61,8 @@
                     <th>
                         <input type="reset" value="Reset Form" onclick="alert('your page is refreshed')">
                     </th>
-                    <th>
-                        <input type="submit" value="Submit Form" onclick="alert('{{ success }}')">
+                    <th colspan="2">
+                        <input type="submit" value="Submit Form">
                     </th>
                 </tr>
            </table>

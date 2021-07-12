@@ -1,6 +1,13 @@
 from django.db import models
 from django.db.models.functions import datetime
 from django.utils.timezone import now
+class Admin( models.Model ):
+	id = models.AutoField(primary_key=True,null=False,blank=False)
+	name= models.CharField( max_length= 50, unique= True, null= False, blank= False )
+	phone_no= models.CharField( max_length= 10, null= False, blank= False, unique= True )
+	email_id= models.EmailField( max_length= 50, null= False, blank= False, unique= True , help_text="this is your "
+	                                                                                                 "user name")
+	password= models.CharField( max_length= 10, null= False, blank= False, unique= True )
 
 
 class Department(models.Model ):
@@ -15,10 +22,11 @@ class Department(models.Model ):
 class Doctor(models.Model ):
 	id= models.AutoField(primary_key= True, null= False, blank= False )
 	name= models.CharField(max_length= 50, null= False, blank= False )
-	email= models.EmailField(max_length= 50, null= False, blank= False )
-	address= models.CharField(max_length= 50, null= False, blank= False )
+	d_o_b= models.DateField(null= False, blank= False)
 	gender= models.CharField(max_length= 10, null= False, blank= False )
 	phone= models.CharField(max_length= 10, null= False, blank= False )
+	email= models.EmailField(max_length= 50, null= False, blank= False )
+	address= models.CharField(max_length= 50, null= False, blank= False )
 	degree= models.CharField(max_length= 100, null= False, blank= False )
 	department= models.ForeignKey(Department, on_delete= models.CASCADE, default= 0, blank= False, null= False )
 
@@ -30,6 +38,7 @@ class Patient(models.Model ):
 	id= models.AutoField(primary_key= True, null= False, blank= False )
 	name= models.CharField(max_length= 200, null= False, blank= False )
 	age= models.IntegerField(null= False, blank= False )
+	d_o_b= models.DateField( null= False, blank= False )
 	blood= models.CharField(max_length= 10, null= False, blank= False )
 	gender= models.CharField(max_length= 10, null= False, blank= False )
 	phone= models.CharField(max_length= 10, null= False, blank= False )
@@ -38,24 +47,12 @@ class Patient(models.Model ):
 	room_no= models.CharField(max_length= 100, null= False, blank= False )
 	date= models.DateField( default= datetime.datetime.now(), null= False, blank= False )
 	doctor= models.ForeignKey( Doctor, on_delete= models.CASCADE, default= None, null= False, blank= False  )
-	department= models.ForeignKey( Department, on_delete= models.CASCADE, default= None, null= False,
-	                              blank= False  )
 
 	def __str__( self  ):
 		return "%s" %self.name
 
 
-class Visitor( models.Model  ):
-	id= models.AutoField( primary_key= True, blank= False, null= False  )
-	name= models.CharField( max_length= 50, null= False, blank= False  )
-	phone= models.CharField( max_length= 10, null= False  )
-	patient= models.OneToOneField( Patient, on_delete= models.CASCADE, null= False, blank= False  )
-
-	def __str__( self  ):
-		return "%s" % self.name
-
-
-class Room( models.Model  ):
+class Room( models.Model ):
 	room_status= ( ( 'empty', 'Empty'  ), ( 'full', 'Full'  )  )
 	id= models.AutoField( primary_key= True, null= False, blank= False  )
 	room_no= models.IntegerField( null= False, blank= False  )
@@ -66,6 +63,17 @@ class Room( models.Model  ):
 
 	def __str__( self ):
 		return "%d" % self.room_no
+
+
+class Visitor( models.Model ):
+	id= models.AutoField( primary_key= True, blank= False, null= False  )
+	name= models.CharField( max_length= 50, null= False, blank= False  )
+	phone= models.CharField( max_length= 10, null= False  )
+	patient= models.CharField( max_length=50,null=False, blank= False  )
+	date = models.DateField(default=datetime.datetime.now(),null=False, blank=False)
+
+	def __str__( self  ):
+		return "%s" % self.name
 
 
 class Staff( models.Model ):
@@ -86,7 +94,8 @@ class Staff( models.Model ):
 
 class Checkout( models.Model ):
 	bill_no= models.AutoField( primary_key= True, null= False, blank= False )
-	patient= models.OneToOneField( Patient, on_delete= models.CASCADE, null= False, blank= False )
+	patient= models.CharField( max_length=50, null= False, blank= False )
+	d_o_b= models.DateField( null= False, blank= False )
 	gender= models.CharField( max_length= 20, null= False, blank= False )
 	age= models.IntegerField( null= False, blank= False )
 	contact= models.CharField( max_length= 10, null= False, blank= False )
@@ -96,8 +105,6 @@ class Checkout( models.Model ):
 	date_of_dis= models.DateField( null= False, blank= False )
 	room_no= models.IntegerField( null= False, blank= False )
 	payment_status= models.CharField( max_length= 50, default= "Pending", null= False, blank= False )
-	medicine_charge= models.IntegerField( null= False, blank= False )
-	doctor_charge= models.IntegerField( null= False, blank= False )
 	total_bill= models.IntegerField( null= False, blank= False )
 
 
@@ -124,10 +131,3 @@ class OrderMedicine( models.Model ):
 	order_date= models.DateField( default= datetime.datetime.now(), null= False,
 	                              blank= False )
 	payment_status= models.CharField( max_length= 50, default= "Pending", null= False, blank= False )
-
-
-class Admin( models.Model ):
-	name= models.CharField( max_length= 50, unique= True, null= False, blank= False )
-	phone_no= models.CharField( max_length= 10, null= False, blank= False, unique= True )
-	email_id= models.EmailField( max_length= 50, null= False, blank= False, unique= True )
-	password= models.CharField( max_length= 10, null= False, blank= False, unique= True )
