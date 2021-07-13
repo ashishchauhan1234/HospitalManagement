@@ -131,3 +131,17 @@ class OrderMedicine( models.Model ):
 	order_date= models.DateField( default= datetime.datetime.now(), null= False,
 	                              blank= False )
 	payment_status= models.CharField( max_length= 50, default= "Pending", null= False, blank= False )
+
+
+class BloodBankDetails(models.Model):
+	id = models.AutoField(primary_key=True,null=False, blank= False)
+	name = models.CharField(max_length=50,null=False, blank=True)
+	d_o_b = models.DateField(null=False,blank=False)
+	gender = models.CharField(max_length=50,null=False, blank=True)
+	blood_group = models.CharField(max_length=5, null=False, blank=False)
+	phone = models.CharField(max_length=10,null=False, blank=False)
+	patient_type =models.CharField(max_length=10,null=False, blank=False)
+	email = models.EmailField(null=False, blank=False)
+	date = models.DateField(default= datetime.datetime.now(),null=False,blank=False)
+	address = models.CharField(max_length=50,null=False, blank=True)
+	feedback = models.TextField(null=False, blank=True)

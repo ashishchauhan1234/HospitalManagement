@@ -1,0 +1,80 @@
+{% extends 'Main_Layout.html' %}
+{% block title %}
+    Blood Bank form
+{% endblock %}
+
+{% block content %}
+    <fieldset>
+        <legend>
+            Blood Bank Form
+        </legend>
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            <table id="show-table" cellSpacing='5' cellpadding="5">
+                {% if blood_bank_list %}
+                <tr>
+                    <th>S No. </th>
+                    <th>Patient Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Blood group</th>
+                    <th>patient type</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>visiting date</th>
+                    <th>Feedback</th>
+                    <th>Action</th>
+                </tr>
+                {% for blood in blood_bank_list %}
+                <tr>
+                    <td>{{ blood.id }}</td>
+                    <td>{{ blood.name }}</td>
+                    <td>{{ blood.d_o_b }}</td>
+                    <td>{{ blood.gender }}</td>
+                    <td>{{ blood.blood_group }}</td>
+                    <td>{{ blood.patient_type }}</td>
+                    <td>{{ blood.phone }}</td>
+                    <td>{{ blood.email }}</td>
+                    <td>{{ blood.address }}</td>
+                    <td>{{ blood.date }}</td>
+                    <td>{{ blood.feedback }}</td>
+                    <td style=" width: 6%" >
+                        <a href="{% url 'Update_Blood_Bank_Details' blood.id %}">Update </a> ||
+                        <a href="{% url 'Delete_Blood_Bank_Details' blood.id %}">Delete </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <th colspan="10">
+                        No Record Found
+                    </th>
+                </tr>
+                {% endif %}
+                <tr>
+                    <th colspan="4">
+                        <a href="{% url 'Blood_Bank_Form' %}">Add new blood detail</a>
+                    </th>
+                    <th colspan="8">
+
+                        {% if blood_bank_list.has_previous %}
+
+                        <a href="?page=1">First</a> |
+                        <a href="?page={{ blood_bank_list.previous_page_number }}">prev</a>
+
+                        {% endif %}
+                        page {{ blood_bank_list.number }} of {{  blood_bank_list.paginator.num_pages }}
+                        {% if blood_bank_list.has_next %}
+
+                        <a href="?page={{ blood_bank_list.next_page_number }}">next</a> |
+                        <a href="?page={{ blood_bank_list.paginator.num_pages}}">Last</a>
+
+                        {% endif %}
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </fieldset>
+{% endblock %}

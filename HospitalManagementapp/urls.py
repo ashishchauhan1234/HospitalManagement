@@ -57,4 +57,9 @@ urlpatterns = [
     path("UpdateVisitor/<int:id>", updateVisitor, name="Update_Visitor"),
     path("DeleteVisitor/<int:id>", deleteVisitor, name="Delete_Visitor"),
     path("ShowVisitor", showVisitor, name = "Show_Visitor_Details"),
+
+    path('BloodBankDetails',bloodBank, name = 'Blood_Bank_Form'),
+    path('UpdateBloodBank/<int:id>',updateBloodBank, name = 'Update_Blood_Bank_Details'),
+    path('DeleteBloodBank/<int:id>',deleteBloodBank, name = 'Delete_Blood_Bank_Details'),
+    path('ShowBloodBank',showBloodBank, name = 'Show_Blood_Bank_Details'),
 ]

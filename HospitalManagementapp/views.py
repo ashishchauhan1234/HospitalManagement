@@ -672,3 +672,71 @@ def showAdmin(request):
 	current_page= request.GET.get('page')
 	admin_list= pages.get_page(current_page)
 	return render(request,'ShowAdmin.html',{'admin_list': admin_list, 'title' :'Admin list'})
+
+
+
+def bloodBank(request):
+	if request.method == "POST":
+		blood_bank_vdf = BloodBankForm(request.POST)
+		if blood_bank_vdf.is_valid():
+			bb = BloodBankDetails()
+			bb.name = blood_bank_vdf.cleaned_data['name']
+			bb.d_o_b = blood_bank_vdf.cleaned_data['d_o_b']
+			bb.blood_group = blood_bank_vdf.cleaned_data['blood_group']
+			bb.gender = blood_bank_vdf.cleaned_data['gender']
+			bb.patient_type = blood_bank_vdf.cleaned_data['patient_type']
+			bb.phone = blood_bank_vdf.cleaned_data['phone']
+			bb.email = blood_bank_vdf.cleaned_data['email']
+			bb.address = blood_bank_vdf.cleaned_data['address']
+			bb.date = blood_bank_vdf.cleaned_data['date']
+			bb.feedback = blood_bank_vdf.cleaned_data['feedback']
+
+			bb.save()
+
+			blood_vdf = BloodBankForm()
+			return render(request, 'BloodBankForm.html', {'vdf': blood_vdf,'success':"Your data has successfully "
+			                                                                         "save"})
+		else:
+			return render(request, 'BloodBankForm.html',{'vdf': blood_bank_vdf,'success':'Your data has not saved'})
+
+	bb_vdf = BloodBankForm()
+	return render(request, 'BloodBankForm.html',{'vdf': bb_vdf})
+
+def updateBloodBank(request,id):
+	blood_bank_date = BloodBankDetails.objects.get(pk = id)
+	if request.method == "POST":
+		blood_bank_vdf = BloodBankForm(request.POST)
+		if blood_bank_vdf.is_valid():
+			new_bb = BloodBankDetails()
+			new_bb.name = blood_bank_vdf.cleaned_data['name']
+			new_bb.d_o_b = blood_bank_vdf.cleaned_data['d_o_b']
+			new_bb.blood_group = blood_bank_vdf.cleaned_data['blood_group']
+			new_bb.gender = blood_bank_vdf.cleaned_data['gender']
+			new_bb.patient_type = blood_bank_vdf.cleaned_data['patient_type']
+			new_bb.phone = blood_bank_vdf.cleaned_data['phone']
+			new_bb.email = blood_bank_vdf.cleaned_data['email']
+			new_bb.address = blood_bank_vdf.cleaned_data['address']
+			new_bb.date = blood_bank_vdf.cleaned_data['date']
+			new_bb.feedback = blood_bank_vdf.cleaned_data['feedback']
+
+			new_bb.id = blood_bank_date.id
+			new_bb.save()
+			return redirect('Show_Blood_Bank_Details')
+		else:
+			return render(request, 'BloodBankForm.html',{'vdf': blood_bank_vdf,'success':'Your data has not '
+			                                                                             'updated'})
+
+	bb_vdf = BloodBankForm(instance=blood_bank_date)
+	return render(request, 'BloodBankForm.html',{'vdf': bb_vdf})
+
+def deleteBloodBank(request,id):
+	bb_data= BloodBankDetails.objects.get(pk= id)
+	bb_data.delete()
+	return redirect('Show_Blood_Bank_Details')
+
+def showBloodBank(request):
+	blood_bank_list_all = BloodBankDetails.objects.all()
+	page_wise= Paginator(blood_bank_list_all, per_page= 5, orphans= 2)
+	current_page= request.GET.get('page')
+	blood_bank_list= page_wise.get_page(current_page)
+	return render(request,'ShowBloodBank.html',{'blood_bank_list': blood_bank_list })

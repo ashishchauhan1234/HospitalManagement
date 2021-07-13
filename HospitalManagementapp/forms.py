@@ -629,3 +629,94 @@ class AdminForm(forms.ModelForm):
 			raise forms.ValidationError("password does not match ....")
 
 		return input_password2
+
+
+patient_choice = (('Donate','Donate'),('Transfusion','Transfusion'))
+class BloodBankForm(forms.ModelForm):
+	gender = forms.ChoiceField(choices=gender_choice, widget=forms.RadioSelect())
+	patient_type = forms.ChoiceField(choices=patient_choice,widget=forms.RadioSelect())
+
+	class Meta:
+		model = BloodBankDetails
+		fields = ['name', 'd_o_b', 'date', 'blood_group', 'phone','patient_type', 'gender', 'email', 'address',
+		                                                                                                 'feedback']
+
+		labels = {
+			'name': _('Patient name'),
+			'd_o_b': _('Date of Birth'),
+			'blood_group':_('Blood group'),
+			'phone': _('Phone no'),
+			'email': _('Email ID'),
+			'gender': _('Gender'),
+			'patient_type': _('Patient type'),
+			'date': _('Date'),
+			'feedback': _('Feedback'),
+			'address': _('Address'),
+		}
+
+		widgets = {
+			'email':forms.EmailInput(),
+			'd_o_b': forms.DateInput(format="%d/%m/%Y"),
+			'date': forms.DateInput(format="%m/%d/%Y"),
+			'feedback': forms.TextInput()
+		}
+
+	def clean_name(self):
+		input_name = self.cleaned_data['name']
+		if len(input_name.strip()) == 0:
+			raise forms.ValidationError("Please enter patient name ")
+		return input_name
+
+	def clean_phone(self):
+		input_phone = self.cleaned_data['phone']
+		if input_phone == None:
+			raise forms.ValidationError("Please enter patient phone no ")
+		return input_phone
+
+	def clean_d_o_b(self):
+		input_date = self.cleaned_data['d_o_b']
+		if input_date == None:
+			raise forms.ValidationError("Please enter date of birth")
+		return input_date
+
+	def clean_date(self):
+		input_date = self.cleaned_data['date']
+		if input_date == None:
+			raise forms.ValidationError("Please enter date")
+		return input_date
+
+	def clean_email(self):
+		input_email= self.cleaned_data['email']
+		validator = EmailValidator('please write valid Email Id')
+		validator(input_email)
+		return input_email
+
+	def clean_address(self):
+		input_add = self.cleaned_data['address']
+		if len(input_add.strip()) == 0:
+			raise forms.ValidationError("Please enter address ")
+		return input_add
+
+	def clean_patient_type(self):
+		input_p_type= self.cleaned_data['patient_type']
+		if len(input_p_type.strip()) == 0:
+			raise forms.ValidationError("Please select type of Patient ")
+		return input_p_type
+
+	def clean_gender(self):
+		input_gen = self.cleaned_data['gender']
+		if input_gen == None:
+			raise forms.ValidationError("Please select gender")
+		return input_gen
+
+	def clean_blood_group(self):
+		input_bg = self.cleaned_data['blood_group']
+		if len(input_bg.strip()) == 0:
+			raise forms.ValidationError("Please enter patient blood group ")
+		return input_bg
+
+	def clean_feedback(self):
+		input_f_back = self.cleaned_data['feedback']
+		if len(input_f_back.strip()) == 0:
+			raise forms.ValidationError("Please give your feedback ")
+		return input_f_back
