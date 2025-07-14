@@ -10,7 +10,7 @@ A web application built using Django for managing hospital appointments, doctors
 
 ## Tech Stack
 - Django
-- SQLite3
+- MySQL
 - HTML, CSS (Bootstrap)
 
 ## Run Locally
